@@ -45,6 +45,13 @@ class CustomerManager:
         if not found:
             print(f"Customer with name {name} not fount")
             
+    def delete_customer(self, customer_id):
+        if customer_id in self.customers:
+            del self.customers[customer_id]
+            print(f"Customer with ID {customer_id} has been deletede")
+        else:
+            print(f"Customer with ID {customer_id} Not Found")
+            
 def main():
     manager = CustomerManager()
 
@@ -74,6 +81,22 @@ def main():
     # 존재하지 않는 고객 검색
     print("\nSearching for Non-existent Customer:")
     manager.find_customer("Charlie Brown")
+    
+      # 고객 목록 출력
+    print("Customer List:")
+    manager.list_customers()
+
+    # 고객 삭제
+    print("\nDeleting customer with ID C001:")
+    manager.delete_customer("C001")
+
+    # 삭제된 후 고객 목록 출력
+    print("\nCustomer List after deletion:")
+    manager.list_customers()
+
+    # 존재하지 않는 고객 삭제 시도
+    print("\nTrying to delete non-existent customer with ID C003:")
+    manager.delete_customer("C003")
 
 if __name__ == "__main__":
     main()
