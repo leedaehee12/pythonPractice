@@ -1,3 +1,5 @@
+import csv
+
 class Customer:
     def __init__(self, customer_id, name, email, phone):
         self.customer_id  = customer_id 
@@ -51,6 +53,27 @@ class CustomerManager:
             print(f"Customer with ID {customer_id} has been deletede")
         else:
             print(f"Customer with ID {customer_id} Not Found")
+    
+    def save_to_file(self, filename):
+        with open(filename, "w", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["ID", "Name", "Email", "Phone"])
+            for customer in self.customers.values():
+                writer.writerow([customer.customer_id, customer.name, customer.email, customer.phone])
+                print(f"Data saved to {filename}.")
+    
+    def load_from_file(self, filename):
+        try:
+            with open(filename, "r") as file:
+                reader = csv.reader(file)
+                next(reader)  # Skip the header
+                for row in reader:
+                    customer_id, name, email, phone = row
+                    customer = Customer(customer_id, name, email, phone)
+                    self.add_customer(customer)
+            print(f"Data loaded from {filename}.")
+        except FileNotFoundError:
+            print(f"File {filename} not found.")
             
 def main():
     manager = CustomerManager()
@@ -61,6 +84,19 @@ def main():
 
     manager.add_customer(customer1)
     manager.add_customer(customer2)
+    
+    # 고객 목록 저장
+    manager.save_to_file("customers.csv")
+
+    # 기존 데이터 삭제 (테스트용)
+    manager.customers = {}
+
+    # 파일에서 고객 목록 불러오기
+    manager.load_from_file("customers.csv")
+
+    # 불러온 고객 목록 출력
+    manager.list_customers()
+
 
     # 고객 목록 출력
     print("Customer List:")
