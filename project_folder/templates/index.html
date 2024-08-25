@@ -2,12 +2,18 @@
 <html lang="kr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scla = 1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 수정: 'scla'를 'scale'로 변경 -->
     <title>Customer List</title>
 </head>
 <body>
     <h1>Customer List</h1>
     <a href="/add">Add Customer</a>
+    
+    <!-- 로그인된 사용자에게만 로그아웃 링크 표시 -->
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+
     <ul>
         {% for customer in customers %}
         <li>{{ customer[1] }} - {{ customer[2] }} - {{ customer[3] }}
