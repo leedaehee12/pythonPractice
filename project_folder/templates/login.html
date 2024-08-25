@@ -1,7 +1,17 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+    <div class="form-container">
 <form method="POST" action="/login">
     <label for="email">이메일</label>
     <input type="email" id="email" name="email" required>
-
+    <br>
     <label for="password">비밀번호</label>
     <input type="password" id="password" name="password" required>
     
@@ -9,3 +19,6 @@
 </form>
 
 <p>회원가입이 아직 안되셨나요? <a href="/register">회원가입</a></p>
+    </div>
+</body>
+</html>
