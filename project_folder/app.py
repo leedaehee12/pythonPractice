@@ -128,16 +128,39 @@ def logout():
     flash('로그아웃되었습니다.')
     return redirect(url_for('login'))
 
+# @app.route('/')
+# @login_required
+# def index():
+#     conn = connect_db()
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT * FROM customers")
+#     customers = cursor.fetchall()
+#     cursor.close()
+#     conn.close()
+#     return render_template('index.html', customers = customers)
+
 @app.route('/')
 @login_required
 def index():
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM customers")
-    customers = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return render_template('index.html', customers = customers)
+    return render_template('index.html')
+
+@app.route('/customers')
+@login_required
+def customers():
+    # 고객 관리 페이지에 대한 처리를 여기에 작성합니다.
+    return render_template('customers.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/services')
+def services():
+    return render_template('services.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 if __name__ == '__main__':
     with app.app_context():
