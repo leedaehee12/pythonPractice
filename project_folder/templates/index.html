@@ -5,3 +5,16 @@
 {% block content %}
 <h2>Welcome to the Customer Management System</h2>
 {% endblock %}
+
+
+<div class="welcome-container">
+    <div class="welcome-card">
+        <h2>Welcome to the Customer Management System</h2>
+        <p>Manage your customers efficiently and easily with our platform. Add, edit, or remove customer information with just a few clicks.</p>
+        
+        <div class="btn-group">
+            <a href="{{ url_for('customers') }}" class="btn">View Customers</a>
+            <a href="{{ url_for('add_customer') }}" class="btn">Add New Customer</a>
+        </div>
+    </div>
+</div>

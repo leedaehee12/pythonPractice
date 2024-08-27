@@ -5,23 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Flask App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script>
+        function showLoginAlert(event){
+            event.preventDefault();
+            alert("로그인이 필요합니다. 로그인을 해주세요.");
+        }
+    </script>
 </head>
 <body>
     <header>
-        <h1>My Flask Application</h1>
+        <h1><a href="{{ url_for('index') }}" style="text-decoration: none; color: inherit;" class="{% if request.endpoint == 'index' %}active{% endif %}">Customers HR System</a></h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
-                <li><a href="{{ url_for('customers') }}" class="{% if request.endpoint == 'customers' %}active{% endif %}">Customers</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('customers') }}" class="{% if request.endpoint == 'customers' %}active{% endif %}">Customers</a></li>
+                {% else %}
+                <!-- 로그인이 안된 상태일 때는 자바스크립트 경고창을 띄움 -->
+                    <li><a href="#" onclick="showLoginAlert(event)">Customers</a></li>
+                    
+                {% endif %}
+               
                 <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a></li>
                 <li><a href="{{ url_for('services') }}" class="{% if request.endpoint == 'services' %}active{% endif %}">Services</a></li>
                 <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
-                
+
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
                 {% endif %}
+                
             </ul>
         </nav>
     </header>

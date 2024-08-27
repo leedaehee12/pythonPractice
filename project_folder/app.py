@@ -5,7 +5,8 @@ from models import db, User
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+mariadbconnector://pythonUser:1234@localhost:3306/pythonpractice'
+app.config['SQLALCHEMY_ECHO'] = True
 db.init_app(app)
 
 #고객 추가 페이지 및 처리
@@ -23,7 +24,7 @@ def add_customer():
         cursor.close()
         conn.close()
         
-        return redirect(url_for('index'))
+        return redirect(url_for('customers'))
     
     return render_template('add.html')
 
@@ -43,7 +44,7 @@ def edit_customer(id):
         cursor.close()
         conn.close()
         
-        return redirect(url_for('index'))
+        return redirect(url_for('customers'))
     
     cursor.execute("SELECT * FROM customers WHERE id = ?", (id,))
     customer = cursor.fetchone()
@@ -82,6 +83,12 @@ def connect_db():
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+
+@app.route('/test')
+def test():
+    users = User.query.all()
+    return f"Total Users: {len(users)}"
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -148,7 +155,13 @@ def index():
 @login_required
 def customers():
     # 고객 관리 페이지에 대한 처리를 여기에 작성합니다.
-    return render_template('customers.html')
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM customers")
+    customers = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('customers.html',  customers = customers)
 
 @app.route('/about')
 def about():

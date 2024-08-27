@@ -3,17 +3,92 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 /* 폼 컨테이너 스타일 */
 .form-container {
-    background: rgba(0, 0, 0, 0.5);
+    width: 50%;
+    margin: 20px auto;
     padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
-    margin: 100px auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-container h1 {
     text-align: center;
 }
+
+.form-container label {
+    display: block;
+    margin: 10px 0;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.form-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+
+/* main.css */
+
+/* 고객 목록 그리드 레이아웃 */
+.customer-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.grid-header, .grid-row {
+    display: contents; /* 셀을 grid의 children으로 사용 */
+}
+
+.grid-header div {
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+}
+
+.grid-row div {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.grid-row div:last-child {
+    border-bottom: none;
+}
+
+a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
 
 /* 폼 스타일 */
 form {
@@ -58,11 +133,11 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #555;
+    background-color: #6107f1;
 }
 
 nav ul li a.active {
-    background-color: #666;
+    background-color: #6107f1;
 }
 
 /* 메인 콘텐츠 스타일 */
@@ -81,10 +156,37 @@ footer {
     width: 100%;
 }
 
+/* Welcome 컨테이너와 카드 스타일 */
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.welcome-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+}
+
+.welcome-card h2 {
+    margin-bottom: 20px;
+}
+
+.welcome-card p {
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
 /* 제목 스타일 */
 h1 {
     color: white;
-    text-align: center;
+    text-align: left;
     margin: 0;
 }
 
@@ -114,11 +216,11 @@ button:hover {
 
 /* 링크 스타일 */
 a {
-    color: #ddd;
+    color: #4f08f7;
 }
 
 a:hover {
-    color: #fff;
+    color: #4f08f7;
 }
 
 
@@ -156,5 +258,5 @@ form button {
 }
 
 form button:hover {
-    background-color: #555;
+    background-color: #0066ff;
 }
