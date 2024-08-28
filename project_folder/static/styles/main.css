@@ -20,22 +20,16 @@ body {
     text-align: center;
 }
 
-.form-container label {
-    display: block;
-    margin: 10px 0;
-}
-
-.form-container input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-}
-
+.form-container label,
+.form-container input,
 .form-container button {
     display: block;
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    margin: 10px 0;
+    padding: 8px;
+}
+
+.form-container button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -47,31 +41,30 @@ body {
     background-color: #0056b3;
 }
 
-
-/* main.css */
-
 /* 고객 목록 그리드 레이아웃 */
 .customer-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr 2fr 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
     margin: 20px 0;
 }
 
 .grid-header, .grid-row {
-    display: contents; /* 셀을 grid의 children으로 사용 */
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.grid-header div, .grid-row div {
+    flex: 1;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 .grid-header div {
     font-weight: bold;
-    padding: 10px;
     background-color: #f4f4f4;
-    border-bottom: 1px solid #ddd;
-}
-
-.grid-row div {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
 }
 
 .grid-row div:last-child {
@@ -88,16 +81,51 @@ a:hover {
     text-decoration: underline;
 }
 
+/* 버튼 기본 스타일 */
+.btn {
+    display: inline-block;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* 수정 버튼 스타일 */
+.btn-edit {
+    background-color: #007bff; /* 수정 버튼 색상 */
+}
+
+.btn-edit:hover {
+    background-color: #0056b3; /* 수정 버튼 hover 색상 */
+}
+
+/* 삭제 버튼 스타일 */
+.btn-delete {
+    background-color: #dc3545; /* 삭제 버튼 색상 */
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* 삭제 버튼 hover 색상 */
+}
 
 /* 폼 스타일 */
 form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-/* 라벨 스타일 */
+
 label {
     display: flex;
     flex-direction: column;
@@ -105,18 +133,66 @@ label {
     margin-bottom: 5px;
 }
 
-/* 헤더 스타일 */
-header {
-    background-color: rgb(230, 97, 8);
-    padding: 1rem;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
-/* 네비게이션 바 스타일 */
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: rgb(33, 2, 143);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 헤더 스타일 */
+header {
+    padding: 1rem;
+    background-image: url("/static/images/home.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: flex-start;
+    list-style: none;
+    padding: 0;
+    margin: 10;
+}
+
+header nav ul li {
+    margin-right: 20px;
+}
+
+header nav ul li:last-child {
+    margin-left: auto;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+header nav ul li a.active {
+    font-weight: bold;
+}
+
 nav ul {
     list-style-type: none;
     margin: 20;
     padding: 0;
-    /* display: flex; */
     justify-content: space-around;
 }
 
@@ -132,10 +208,7 @@ nav ul li a {
     transition: background-color 0.3s;
 }
 
-nav ul li a:hover {
-    background-color: #6107f1;
-}
-
+nav ul li a:hover,
 nav ul li a.active {
     background-color: #6107f1;
 }
@@ -143,6 +216,7 @@ nav ul li a.active {
 /* 메인 콘텐츠 스타일 */
 main {
     padding: 2rem;
+    text-align: center;
 }
 
 /* 푸터 스타일 */
@@ -183,80 +257,46 @@ footer {
     color: #ffffff;
 }
 
-/* 제목 스타일 */
-h1 {
-    color: white;
-    text-align: left;
-    margin: 0;
-}
-
-/* 입력 필드 스타일 */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+/* 검색 바 스타일 */
+.search-bar {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background-color: #f8f8f8;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-/* 버튼 스타일 */
-button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* 링크 스타일 */
-a {
-    color: #4f08f7;
-}
-
-a:hover {
-    color: #4f08f7;
-}
-
-
-main {
-    padding: 2rem;
-    text-align: center; /* 중앙 정렬 */
-}
-
-/* 폼 스타일 */
-form {
-    max-width: 500px;
+.search-bar form {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
     margin: 0 auto;
 }
 
-form label {
-    display: block;
-    margin: 1rem 0 0.5rem;
-}
-
-form input {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin-right: 10px; /* 인풋 필드 오른쪽에 간격 추가 */
 }
 
-form button {
-    background-color: #f80000;
-    color: white;
-    padding: 0.5rem 1rem;
+.search-bar button {
+    padding: 8px 12px; /* 버튼 크기 줄이기 */
     border: none;
+    background-color: #007BFF;
+    color: white;
     border-radius: 4px;
     cursor: pointer;
 }
 
-form button:hover {
-    background-color: #0066ff;
+.search-bar button:hover {
+    background-color: #0056b3;
 }
+

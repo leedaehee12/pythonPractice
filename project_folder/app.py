@@ -154,14 +154,26 @@ def index():
 @app.route('/customers')
 @login_required
 def customers():
-    # 고객 관리 페이지에 대한 처리를 여기에 작성합니다.
+    query = request.args.get('query', '')
+
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM customers")
-    customers = cursor.fetchall()
+
+    if query:
+        search_query = f"%{query}%"
+        cursor.execute("""
+            SELECT * FROM customers 
+            WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?
+        """, (search_query, search_query, search_query))
+        customers = cursor.fetchall()
+    else:
+        cursor.execute("SELECT * FROM customers")
+        customers = cursor.fetchall()
+
     cursor.close()
     conn.close()
-    return render_template('customers.html',  customers = customers)
+
+    return render_template('customers.html', customers=customers)
 
 @app.route('/about')
 def about():
