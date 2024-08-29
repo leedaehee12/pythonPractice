@@ -7,6 +7,7 @@
 
 <div class="customer-grid">
     <div class="grid-header">
+        <div>ID</div>
         <div>Name</div>
         <div>Email</div>
         <div>Phone</div>
@@ -15,6 +16,7 @@
     
     {% for customer in customers %}   
     <div class="grid-row">
+        <div>{{ customer[0] }}</div>
         <div>{{ customer[1] }}</div>
         <div>{{ customer[2] }}</div>
         <div>{{ customer[3] }}</div>

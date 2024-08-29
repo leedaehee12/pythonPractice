@@ -107,7 +107,7 @@ def delete_customer(id):
     cursor.close()
     conn.close()
     
-    return redirect(url_for('index'))
+    return redirect(url_for('customers'))
 
 def connect_db():
     try:
