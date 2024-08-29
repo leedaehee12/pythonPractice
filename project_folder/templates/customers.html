@@ -13,7 +13,7 @@
         <div>Actions</div>
     </div>
     
-    {%for customer in customers %}   
+    {% for customer in customers %}   
     <div class="grid-row">
         <div>{{ customer[1] }}</div>
         <div>{{ customer[2] }}</div>
@@ -27,16 +27,32 @@
     {% endfor %}
 </div>
 
- <!-- 고객 목록이나 고객 관리 UI를 여기에 추가합니다. --> 
+<!-- 고객 목록이나 고객 관리 UI를 여기에 추가합니다. --> 
 
 <!-- 검색 폼 -->
- <div class="search-bar">
+<div class="search-bar">
     <form method="GET" action="{{ url_for('customers') }}">
-        <input type="text" name="query" placeholder="Search customers" value="{{ request.args.get('query', '') }}">
+        <input type="text" name="query" placeholder="Search customers" value="{{ query }}">
         <button type="submit">Search</button>
     </form>
 </div>
-</form>
- <a href="{{ url_for('add_customer') }}">Add New Customer</a>
+
+<a href="{{ url_for('add_customer') }}">Add New Customer</a>
+<a href="{{ url_for('upload_customers') }}">Upload Customers</a>
+
+<!-- 페이지 네비게이션 -->
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for('customers', page=page-1, query=query) }}">Previous</a>
+    {% endif %}
+
+    {% for p in range(1, num_pages + 1) %}
+        <a href="{{ url_for('customers', page=p, query=query) }}" class="{% if p == page %}active{% endif %}">{{ p }}</a>
+    {% endfor %}
+
+    {% if page < num_pages %}
+    <a href="{{ url_for('customers', page=page+1, query=query) }}">Next</a>
+    {% endif %}
+</div>
 
 {% endblock %}

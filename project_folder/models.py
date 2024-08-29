@@ -18,3 +18,16 @@ class User(db.Model, UserMixin):
     # 비밀번호 검증
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
+    
+
+class Customers(db.Model):
+    __tablename__ = 'customers'  # 테이블 이름을 'customers'로 지정
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100))
+    phone = db.Column(db.String(20))
+    
+    def __init__(self, name, email, phone) :
+        self.name = name
+        self.email = email
+        self.phone = phone

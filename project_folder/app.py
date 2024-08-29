@@ -1,7 +1,9 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+import pandas as pd
 import mariadb
 from models import db, User
+from models import Customers
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -27,6 +29,47 @@ def add_customer():
         return redirect(url_for('customers'))
     
     return render_template('add.html')
+
+# 엑셀 파일 업로드를 위한 라우트
+@app.route('/upload_customers', methods=['GET', 'POST'])
+def upload_customers():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and file.filename.endswith('.xlsx'):
+            try:
+                # 엑셀 파일을 읽어서 데이터프레임으로 변환
+                df = pd.read_excel(file)
+
+                # 데이터베이스에 고객 추가
+                for index, row in df.iterrows():
+                    new_customer = Customers(
+                        name=row['Name'],
+                        email=row['Email'],
+                        phone=row['Phone']
+                    )
+                    db.session.add(new_customer)
+
+                db.session.commit()
+                flash('Customers uploaded successfully!')
+                return redirect(url_for('customers'))
+
+            except Exception as e:
+                flash(f'An error occurred: {e}')
+                return redirect(request.url)
+        else:
+            flash('Invalid file format. Please upload an Excel file.')
+            return redirect(request.url)
+
+    return render_template('upload_customers.html')
 
 #고객 정보 수정 페이지 및 처리
 @app.route('/edit/<int:id>', methods = ['GET', 'POST'])
@@ -155,7 +198,9 @@ def index():
 @login_required
 def customers():
     query = request.args.get('query', '')
-
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    
     conn = connect_db()
     cursor = conn.cursor()
 
@@ -164,16 +209,23 @@ def customers():
         cursor.execute("""
             SELECT * FROM customers 
             WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?
-        """, (search_query, search_query, search_query))
+            LIMIT ? OFFSET ?
+        """, (search_query, search_query, search_query, per_page, (page - 1) * per_page))
         customers = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM customers WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?", (search_query, search_query, search_query))
+        total = cursor.fetchone()[0]
     else:
-        cursor.execute("SELECT * FROM customers")
+        cursor.execute("SELECT * FROM customers LIMIT ? OFFSET ?", (per_page, (page - 1) * per_page))
         customers = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM customers")
+        total = cursor.fetchone()[0]
 
     cursor.close()
     conn.close()
+    
+    num_pages = (total + per_page - 1) // per_page  # 총 페이지 수
 
-    return render_template('customers.html', customers=customers)
+    return render_template('customers.html', customers=customers, page=page, num_pages=num_pages, query=query)
 
 @app.route('/about')
 def about():
@@ -191,3 +243,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # 데이터베이스 테이블 생성
     app.run(debug=True)
+    
+    
