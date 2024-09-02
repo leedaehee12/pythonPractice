@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
 from api import get_weather
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def index():
