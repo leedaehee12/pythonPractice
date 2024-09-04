@@ -9,10 +9,24 @@
 <body>
     <div class="container">
         <h1>Weather Information</h1>
-        <p>City: {{ weather.city }}</p>
-        <p>Temperature: {{ weather.temperature }}°C</p>
-        <p>Condition: {{ weather.condition }}</p>
+        {% if weather %}
+            <p>City: {{ weather.city }}</p>
+            <p>Temperature: {{ weather.temperature }}°C</p>
+            <p>Condition: {{ weather.condition }}</p>
+
+            <h2>Hourly Forecast</h2>
+            {% for forecast in weather.forecast %}
+            <div class="forecast-item">
+                <p>Time : {{ forecast.time }}</p>
+                <p>Temperature : {{ forecast.temperature }}</p>
+                <p>Condition : {{ forecast.condition  }}</p>
+            </div>
+        {% endfor %}
         <a href="/">Back to Home</a>
+        {% else %}
+        <p>Failed to retrieve weather data.</p>
+        <a href="/">Back to Home</a>
+    {% endif %}
     </div>
 </body>
 </html>
